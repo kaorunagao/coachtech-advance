@@ -120,7 +120,7 @@
                 <input type="submit" value="会員登録" class="content_input-button">
               </td>
               <td>
-                <p class="content_input-p">アカウントお持ちの方はこちらから</p>
+                <p class="content_input-p">アカウントをお持ちの方はこちらから</p>
               </td>
               <td>
                 <p class="content_input-p">
