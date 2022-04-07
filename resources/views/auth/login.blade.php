@@ -44,18 +44,21 @@
         }
         input {
             width:300px;
+            height:25px;
             padding:7px;
             margin:5px 0;
             background-color:#F5F5F5;
             border:1px solid grey;
+            border-radius:3px;
         }
         .content_input-button {
             width:315px;
+            height:40px;
             padding:7px;
             background:blue;
             color:white;
             border:none;
-            border-radius:2px;
+            border-radius:3px;
             cursor:pointer;
         }
         .content_input-button:hover {
@@ -96,13 +99,13 @@
                             <td class="error">{{$message}}</td>
                             @enderror
                             <td>
-                                <input type="email" name="email" placeholder="メールアドレス" value="{{old('email')}}">
+                                <input type="email" name="email" placeholder="  メールアドレス" value="{{old('email')}}">
                             </td>
                             @error("password")
                             <td class="error">{{$message}}</td>
                             @enderror
                             <td>
-                                <input type="password" name="password" placeholder="パスワード">
+                                <input type="password" name="password" placeholder="  パスワード">
                             </td>
                             <td>
                                 <input type="submit" value="ログイン" class="content_input-button">
