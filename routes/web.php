@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TimestampController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,12 +14,20 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
 
 require __DIR__.'/auth.php';
+
+
+// 打刻ページ
+Route::get('/', function () {
+    $user = Auth::user();
+    return view("timestamp",["user"=>$user]);
+})->middleware(["auth"]);
+
+Route::post('/', function () {
+    [TimestampController::class,"create"];
+})->middleware(["auth"]);
+
