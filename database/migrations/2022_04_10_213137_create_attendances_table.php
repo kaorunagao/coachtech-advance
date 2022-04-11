@@ -18,11 +18,10 @@ class CreateAttendancesTable extends Migration
             $table->unsignedBigInteger('user_id'); //外部キー
             $table->timestamp('created_at')->useCurrent()->nullable();
             $table->timestamp('updated_at')->useCurrent()->nullable();
-            $table->time('start_time');
-            $table->time('end_time')->nullable();
-            $table->time('total_rest')->nullable();
-            $table->time('total_time')->nullable();
-            $table->date('attendance_date');
+            $table->time('start_at');
+            $table->time('end_at')->nullable();
+            $table->time('work_at')->nullable();
+            $table->date('date');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             //user_idに外部キー制約,usersテーブルのidカラムを参照してそのカラムが削除された場合カスケード的に処理
         });

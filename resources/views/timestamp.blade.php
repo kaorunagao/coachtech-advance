@@ -7,9 +7,7 @@
   <title>Document</title>
   <style>
 /* 全て */
-  *{
-    color:black;
-  }
+  
   body{
     width:100%;
     margin:0;
@@ -33,10 +31,11 @@
     list-style:none;
   }
   .header_nav ul li a:hover{
-    color:red;
+    color:blue;
   }
   .header_nav a{
     text-decoration:none;
+    color:black;
   }
   /* ユーザータイトル */
   .user_list-title{
@@ -67,8 +66,14 @@
     font-size:15px;
   }
   .btn_disabled{
-    border-color:red;
-    border-radius:10px;
+    color:#dcdcdc;
+  }
+  .session 
+  {
+    text-align:center;
+    font-size:15px;
+    font-weight:bold;
+    color:blue;
   }
 /* フッター */
   .footer {
@@ -114,7 +119,7 @@
       </p>
     </div>
     <div class="content_stampbtn" id="btn_start">
-      <form action="/stamp/start" method="POST">
+      <form action="/time_start" method="POST">
         {{--勤務開始--}}
         @if(Session::has("start"))
           @csrf
@@ -128,7 +133,7 @@
             </button>
         @endif
         </form>
-        <form action="/stamp/end" method="POST">
+        <form action="/time_end" method="POST">
         {{--勤務終了--}}
         @if(Session::has("end"))
           @csrf
@@ -144,7 +149,7 @@
         </form>
       </div>
     <div class="content_stampbtn" id="btn_start">
-      <form action="/rest/start" method="POST">
+      <form action="/rest_start" method="POST">
       {{--休憩開始--}}
         @if(Session("rest_start"))
           @csrf
@@ -158,7 +163,7 @@
             </button>
           @endif
         </form>
-        <form action="/rest/end" method="POST">
+        <form action="/rest_end" method="POST">
           {{--休憩終了--}}
           @if(Session("rest_end"))
           @csrf

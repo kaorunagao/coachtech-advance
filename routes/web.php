@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TimestampController;
+use App\Http\Controllers\RestController;
+use App\Http\Controllers\AttendanceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,13 +23,24 @@ Route::get('/dashboard', function () {
 require __DIR__.'/auth.php';
 
 
-// 打刻ページ
+// 打刻ページ、データ取得
 Route::get('/', function () {
     $user = Auth::user();
     return view("timestamp",["user"=>$user]);
 })->middleware(["auth"]);
-
+// 打刻ページ、表示
 Route::post('/', function () {
-    [TimestampController::class,"create"];
+    [TimestampController::class,"showTimestamp"];
 })->middleware(["auth"]);
 
+
+Route::group(['middleware' => 'auth'], function () {
+//勤怠開始
+Route::post("/time_start",[TimestampController::class,"timeStart"]);
+// 勤怠終了
+Route::post("/time_end", [TimestampController::class,"timeEnd"]);
+//休憩開始
+Route::post("/rest_start",[RestController::class,"restStart"]);
+//休憩終了
+Route::post("/rest_end", [RestController::class,"restEnd"]);
+});

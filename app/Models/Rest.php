@@ -5,22 +5,22 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Attendance extends Model
+class Rest extends Model
 {
     use HasFactory;
-    
+
     protected $fillable = [
-        'user_id',
+        'attendance_id',
         'start_at',
         'date'
     ];
     protected $dates = [
         'start_at',
-        'date'
+        'total_at'
     ];
 
-    public function user()
+    public function attendance()
     {
-        return $this->belongsTo('App\Models\User');
+        return $this->hasMany('App\Models\Attendance');
     }
 }
