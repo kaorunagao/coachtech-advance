@@ -23,12 +23,11 @@ Route::get('/dashboard', function () {
 require __DIR__.'/auth.php';
 
 
-// 打刻ページ、データ取得
 Route::get('/', function () {
     $user = Auth::user();
     return view("timestamp",["user"=>$user]);
 })->middleware(["auth"]);
-// 打刻ページ、表示
+// 打刻、表示、処理
 Route::post('/', function () {
     [TimestampController::class,"showTimestamp"];
 })->middleware(["auth"]);

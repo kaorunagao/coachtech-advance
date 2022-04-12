@@ -21,8 +21,8 @@ class TimestampController extends Controller
         ["user"=>$user]);
     }
 
-// 勤怠開始を記録する。
-// 既に出勤している状態で出勤打刻を押した場合、メッセージで知らせる。
+// 勤怠開始を記録する
+// 既に出勤している状態で出勤打刻を押した場合、メッセージで知らせる
     public function timeStart() {
         $start_time = Attendance::where("user_id",Auth::user()->id)
         ->where("date",Carbon::today()
@@ -63,7 +63,13 @@ class TimestampController extends Controller
         // ->where("data",Carbon::today()->format("Y-m-d")))
         // ->value("end_at") == null
         ){
-            return redirect("/")->with("message","勤務終了済みです");
+            return redirect("/")->with([
+                "message"   =>"勤務終了済みです",
+                "start"     =>"true",
+                "end"       =>"true",
+                "rest_start"=>"true",
+                "rest_end"  =>"true",
+            ]);
         }
         $work_total = Attendance::where('user_id', $user->id)
         ->where('date', $today)
@@ -89,6 +95,7 @@ class TimestampController extends Controller
         ]);
         return redirect("/")->with([
             "message"   =>"勤務終了を記録しました",
+            "start"     =>"true",
             "end"       =>"true",
             "rest_start"=>"true",
             "rest_end"  =>"true",

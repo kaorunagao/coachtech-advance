@@ -30,6 +30,7 @@ class RestController extends Controller
         {
             return redirect("/")->with([
                 "message"   =>"勤務終了済みです",
+                "start"     =>"true",
                 "end"       =>"true",
                 "rest_start"=>"true",
                 "rest_end"  =>"true",
@@ -125,6 +126,7 @@ class RestController extends Controller
         {
             return redirect("/")->with([
             "message"   =>"勤務終了済みです",
+            "start"     =>"true",
             "end"       =>"true",
             "rest_start"=>"true",
             "rest_end"  =>"true",
