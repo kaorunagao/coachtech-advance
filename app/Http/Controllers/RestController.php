@@ -91,13 +91,13 @@ class RestController extends Controller
         $stamp = Attendance::where("user_id",Auth::user()->id)
         ->latest()
         ->first();
-        $rest  = Rest::where("Attendance_id",$stamp->id)
+        $rest  = Rest::where("attendance_id",$stamp->id)
         ->orderBy("created_at","desc")
         ->first();
         if (empty(Rest::where("attendance_id",$stamp->id)
         ->orderBy("created_at","desc")
         ->first()->end_at)){
-        $rest_total = Rest::where("Attendance_id",$stamp->id)
+        $rest_total = Rest::where("attendance_id",$stamp->id)
         ->orderby("created_at","desc")
         ->value("start_at")
         ->diffINSeconds(Carbon::now()->format("H:i:s"));
