@@ -11,9 +11,8 @@ use App\Models\Rest;
 
 class RestController extends Controller
 {
-// 休憩開始の記録をする。
-// 休憩開始を押した時にメッセージで知らせる
-// 退勤していた場合、メッセージで知らせる。
+// 休憩開始の記録をする
+// 既に休憩開始を押している状態で休憩開始を押した場合、メッセージで知らせる
     public function restStart(){
         $user       = Auth::user();
         $today      = Carbon::today()->format("Y-m-d");
@@ -28,63 +27,55 @@ class RestController extends Controller
         ->first();
         if (!empty($stamp->end_at))
         {
+            return redirect("/error");
+        }
+        elseif (empty($rest)){
+            $rest_at = Rest::create([
+                "attendance_id"=>$stamp->id,
+                "date"         =>$today,
+                "start_at"     =>Carbon::now(),
+            ]);
+            Attendance::where("user_id",$user->id)
+            ->orderBy("id","desc")
+            ->first()
+            ->update([
+                "rest_id" => Rest::where("attendance_id",$stamp->id)
+                ->orderBy("created_at","desc")
+                ->value("id")
+            ]);
             return redirect("/")->with([
-                "message"   =>"勤務終了済みです",
+                "message"   =>'休憩開始を記録しました',
                 "start"     =>"true",
                 "end"       =>"true",
                 "rest_start"=>"true",
-                "rest_end"  =>"true",
             ]);
-        }
-        elseif (empty($rest)){
-                $rest_at = Rest::create([
-                    "attendance_id"=>$stamp->id,
-                    "date"    =>$today,
-                    "start_at"=>Carbon::now(),
-                ]);
-                Attendance::where("user_id",$user->id)
-                ->orderBy("id","desc")
-                ->first()
-                ->update([
-                    "rest_id" => Rest::where("attendance_id",$stamp->id)
-                                ->orderBy("created_at","desc")
-                                ->value("id")
-                ]);
-                return redirect("/")->with([
-                    "message"   =>"休憩開始を記録しました",
-                    "start"     =>"true",
-                    "end"       =>"true",
-                    "rest_start"=>"true",
-                ]);
         }
         elseif (!empty($rest->end_at)){
             $rest_at = Rest::where("attendance_id",$stamp->id)
             ->orderBy("created_at","desc")
             ->update([
-                    "attendance_id"=>$stamp->id,
-                    "date"    =>$today,
-                    "start_at"=>Carbon::now()->format("H:i:s"),
-                ]);
-                return redirect("/")->with([
-                    "message"   =>"休憩開始を記録しました",
-                    "start"     =>"true",
-                    "end"       =>"true",
-                    "rest_start"=>"true",
-                ]);
+                "attendance_id"=>$stamp->id,
+                "date"         =>$today,
+                "start_at"     =>Carbon::now()->format("H:i:s"),
+            ]);
+            return redirect("/")->with([
+                "message"   =>'休憩開始を記録しました',
+                "start"     =>"true",
+                "end"       =>"true",
+                "rest_start"=>"true",
+            ]);
         }
-                return redirect("/")->with([
-                    "message"   =>"休憩中です",
-                    "start"     =>"true",
-                    "end"       =>"true",
-                    "rest_start"=>"true",
+        return redirect("/")->with([
+            "message"   =>'休憩中です',
+            "start"     =>"true",
+            "end"       =>"true",
+            "rest_start"=>"true",
         ]);
     }
 
-// 休憩終了を記録し、休憩時間を計算する。
-// 複数休憩時間を取得する場合上書きして管理をしていく。
-// 2回目以降の休憩は休憩時間を時/分/秒に分けてそれぞれ計算し結合させる。
-// 休憩終了を押した時メッセージを表示する。
-// 既に退勤していた場合、メッセージで知らせる。
+// 休憩終了を記録すると同時に休憩時間を計算する
+// 複数休憩時間を取得する場合、上書きで管理していく
+// 2回目以降の休憩は休憩時間を時/分/秒に分けてそれぞれ計算し結合させる
     public function restEnd(){
         $user  = Auth::user();
         $today = Carbon::today()->format("Y-m-d");
@@ -113,24 +104,18 @@ class RestController extends Controller
         ->whereNull("end_at")
         ->update([
             "attendance_id"=>$stamp->id,
-            "end_at"  =>Carbon::now()->format("H:i:s"),
-            "total_at"=>$rest_total,
+            "end_at"       =>Carbon::now()->format("H:i:s"),
+            "total_at"     =>$rest_total,
         ]);
         return redirect("/")->with([
-            "message" =>"休憩終了を記録しました",
+            "message" =>'休憩終了を記録しました',
             "start"   =>"true",
             "rest_end"=>"true",
         ]);
         }
         elseif (!empty($rest->end_at) && !empty($stamp->end_at))
         {
-            return redirect("/")->with([
-            "message"   =>"勤務終了済みです",
-            "start"     =>"true",
-            "end"       =>"true",
-            "rest_start"=>"true",
-            "rest_end"  =>"true",
-            ]);
+            return redirect("/error");
         }
         elseif (!empty($rest->end_at)){
             $rest_total = Rest::where("attendance_id",$stamp->id)
@@ -144,7 +129,7 @@ class RestController extends Controller
             $rest_min   = $rest_min < 10 ? "0" . $rest_min : $rest_min;
             $rest_sec   = $rest_sec < 10 ? "0" . $rest_sec : $rest_sec;
             $rest_total = $rest_hour . ":" . $rest_min . ":" . $rest_sec;
-            // 休憩時間の更新　↓
+            // 休憩時間の更新
             $rest_previous_total = Carbon::today()
             ->diffInSeconds(Rest::where("attendance_id",$stamp->id)
             ->orderBy("created_at","desc")
@@ -161,19 +146,14 @@ class RestController extends Controller
             ->orderBy("created_at","desc")
             ->update([
                 "attendance_id"=>$stamp->id,
-                "end_at"  =>Carbon::now()->format("H:i:s"),
-                "total_at"=>$test_total
+                "end_at"       =>Carbon::now()->format("H:i:s"),
+                "total_at"     =>$test_total
             ]);
-        return redirect("/")->with([
-            "message" =>"休憩終了を記録しました",
-            "start"   =>"true",
-            "rest_end"=>"true",
-        ]);
+            return redirect("/")->with([
+                "message" =>'休憩終了を記録しました',
+                "start"   =>"true",
+                "rest_end"=>"true",
+            ]);
         }
-        return redirect("/")->with([
-            "message" =>"休憩終了済みです",
-            "start"   =>"true",
-            "rest_end"=>"true",
-        ]);
     }
 }

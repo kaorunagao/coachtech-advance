@@ -42,4 +42,6 @@ Route::post("/time_end", [TimestampController::class,"timeEnd"]);
 Route::post("/rest_start",[RestController::class,"restStart"]);
 //休憩終了
 Route::post("/rest_end", [RestController::class,"restEnd"]);
+
+Route::get("/error", [RestController::class,"error"]);
 });
