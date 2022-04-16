@@ -155,5 +155,6 @@ class RestController extends Controller
                 "rest_end"=>"true",
             ]);
         }
+        return redirect("/");
     }
 }

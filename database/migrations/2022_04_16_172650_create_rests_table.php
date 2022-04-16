@@ -21,7 +21,7 @@ class CreateRestsTable extends Migration
             $table->time('start_at');
             $table->time('end_at')->nullable();
             $table->time('total_at')->nullable();
-            $table->date('date');
+            $table->date('date')->nullable();
             $table->foreign('attendance_id')->references('id')->on('attendances')->onDelete('cascade');
             //attendance_idに外部キー制約,attendancesテーブルのidカラムを参照してそのカラムが削除された場合カスケード的に処理
         });
