@@ -7,6 +7,7 @@ use Auth;
 use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Attendance;
+use App\Models\Rest;
 
 class TimestampController extends Controller
 {
@@ -81,7 +82,7 @@ class TimestampController extends Controller
             ->update([
             "user_id"=>Auth::id(),
             "end_at" =>Carbon::now()->format("H:i:s"),
-            "work_at"=>$work_total,
+            "work_at"=>$work_total
         ]);
         return redirect("/")->with([
             "message"   =>'勤務終了を記録しました',

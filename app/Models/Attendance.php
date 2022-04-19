@@ -13,6 +13,7 @@ class Attendance extends Model
     
     protected $fillable = [
         "user_id",
+        "rest_id",
         "start_at",
         "date"
     ];
@@ -23,10 +24,10 @@ class Attendance extends Model
 
     public function user()
     {
-        return $this->belongsTo("App\Models\User");
+        return $this->belongsTo('App\Models\User');
     }
     public function rest()
     {
-        return $this->belongsTo("App\Models\Rest");
+        return $this->belongsTo('App\Models\Rest');
     }
 }

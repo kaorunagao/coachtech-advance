@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TimestampController;
 use App\Http\Controllers\RestController;
 use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\UserlistController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,7 +28,7 @@ Route::get('/', function () {
     $user = Auth::user();
     return view("timestamp",["user"=>$user]);
 })->middleware(["auth"]);
-// 打刻、表示、処理
+// 打刻、表示/処理
 Route::post('/', function () {
     [TimestampController::class,"showTimestamp"];
 })->middleware(["auth"]);
@@ -42,5 +43,12 @@ Route::post("/time_end", [TimestampController::class,"timeEnd"]);
 Route::post("/rest_start",[RestController::class,"restStart"]);
 //休憩終了
 Route::post("/rest_end", [RestController::class,"restEnd"]);
+
+// 日別勤怠管理、表示/処理
+Route::get("/attendance",  [AttendanceController::class,"create"]);
+Route::post("/attendance", [AttendanceController::class,"search"]);
+
+// ユーザー別勤怠一覧
+Route::get("/userlist",[UserlistController::class,"create"]);
 
 });

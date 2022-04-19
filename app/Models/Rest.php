@@ -21,8 +21,8 @@ class Rest extends Model
         "total_at"
     ];
 
-    public function attendance()
+    public function attendances()
     {
-        return $this->hasMany("App\Models\Attendance");
+        return $this->hasMany('App\Models\Attendance');
     }
 }
