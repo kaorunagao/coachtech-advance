@@ -12,18 +12,18 @@ use App\Models\Rest;
 class RestController extends Controller
 {
 // 休憩開始の記録をする
-// 既に休憩開始を押している状態で休憩開始を押した場合、メッセージで知らせる
+// 既に休憩開始の打刻をしている状態で休憩開始の打刻をした場合、メッセージで知らせる
     public function restStart(){
         $user       = Auth::user();
         $today      = Carbon::today()->format("Y-m-d");
-        $stamp      = Attendance::where("user_id",$user->id)
-        ->orderBy("id","desc")
+        $stamp      = Attendance::where('user_id',$user->id)
+        ->orderBy('id','desc')
         ->first();
-        $stamp_test = Attendance::where("user_id",$user->id)
+        $stamp_test = Attendance::where('user_id',$user->id)
         ->latest()
         ->first();
-        $rest       = Rest::where("attendance_id",$stamp->id)
-        ->orderBy("created_at","desc")
+        $rest       = Rest::where('attendance_id',$stamp->id)
+        ->orderBy('created_at','desc')
         ->first();
         if (!empty($stamp->end_at))
         {
@@ -31,42 +31,42 @@ class RestController extends Controller
         }
         elseif (empty($rest)){
             $rest_at = Rest::create([
-                "attendance_id"=>$stamp->id,
-                "date"         =>$today,
-                "start_at"     =>Carbon::now(),
+                'attendance_id'=>$stamp->id,
+                'date'         =>$today,
+                'start_at'     =>Carbon::now(),
             ]);
-            Attendance::where("user_id",$user->id)
-            ->orderBy("id","desc")
+            Attendance::where('user_id',$user->id)
+            ->orderBy('id','desc')
             ->first()
             ->update([
-                "rest_id" => Rest::where("attendance_id",$stamp->id)
-                ->orderBy("created_at","desc")
-                ->value("id")
+                'rest_id' => Rest::where('attendance_id',$stamp->id)
+                ->orderBy('created_at','desc')
+                ->value('id')
             ]);
             return redirect("/")->with([
-                "message"   =>'休憩開始を記録しました',
+                'message'   =>'休憩開始を記録しました',
                 "start"     =>"true",
                 "end"       =>"true",
                 "rest_start"=>"true",
             ]);
         }
         elseif (!empty($rest->end_at)){
-            $rest_at = Rest::where("attendance_id",$stamp->id)
-            ->orderBy("created_at","desc")
+            $rest_at = Rest::where('attendance_id',$stamp->id)
+            ->orderBy('created_at','desc')
             ->update([
-                "attendance_id"=>$stamp->id,
-                "date"         =>$today,
-                "start_at"     =>Carbon::now()->format("H:i:s"),
+                'attendance_id'=>$stamp->id,
+                'date'         =>$today,
+                'start_at'     =>Carbon::now()->format("H:i:s"),
             ]);
             return redirect("/")->with([
-                "message"   =>'休憩開始を記録しました',
+                'message'   =>'休憩開始を記録しました',
                 "start"     =>"true",
                 "end"       =>"true",
                 "rest_start"=>"true",
             ]);
         }
         return redirect("/")->with([
-            "message"   =>'休憩中です',
+            'message'   =>'休憩中です',
             "start"     =>"true",
             "end"       =>"true",
             "rest_start"=>"true",
@@ -79,18 +79,18 @@ class RestController extends Controller
     public function restEnd(){
         $user  = Auth::user();
         $today = Carbon::today()->format("Y-m-d");
-        $stamp = Attendance::where("user_id",Auth::user()->id)
+        $stamp = Attendance::where('user_id',Auth::user()->id)
         ->latest()
         ->first();
-        $rest  = Rest::where("attendance_id",$stamp->id)
-        ->orderBy("created_at","desc")
+        $rest  = Rest::where('attendance_id',$stamp->id)
+        ->orderBy('created_at','desc')
         ->first();
-        if (empty(Rest::where("attendance_id",$stamp->id)
-        ->orderBy("created_at","desc")
+        if (empty(Rest::where('attendance_id',$stamp->id)
+        ->orderBy('created_at','desc')
         ->first()->end_at)){
-        $rest_total = Rest::where("attendance_id",$stamp->id)
-        ->orderby("created_at","desc")
-        ->value("start_at")
+        $rest_total = Rest::where('attendance_id',$stamp->id)
+        ->orderby('created_at','desc')
+        ->value('start_at')
         ->diffINSeconds(Carbon::now()->format("H:i:s"));
         $rest_hour  = floor($rest_total / 3600);
         $rest_min   = floor(($rest_total - 3600 * $rest_hour) / 60);
@@ -99,16 +99,16 @@ class RestController extends Controller
         $rest_min   = $rest_min < 10 ? "0" . $rest_min : $rest_min;
         $rest_sec   = $rest_sec < 10 ? "0" . $rest_sec : $rest_sec;
         $rest_total = $rest_hour . ":" . $rest_min . ":" . $rest_sec;
-        $rest_at = Rest::where("attendance_id",$stamp->id)
-        ->orderBy("created_at","desc")
-        ->whereNull("end_at")
+        $rest_at = Rest::where('attendance_id',$stamp->id)
+        ->orderBy('created_at','desc')
+        ->whereNull('end_at')
         ->update([
-            "attendance_id"=>$stamp->id,
-            "end_at"       =>Carbon::now()->format("H:i:s"),
-            "total_at"     =>$rest_total,
+            'attendance_id'=>$stamp->id,
+            'end_at'       =>Carbon::now()->format("H:i:s"),
+            'total_at'     =>$rest_total,
         ]);
         return redirect("/")->with([
-            "message" =>'休憩終了を記録しました',
+            'message' =>'休憩終了を記録しました',
             "start"   =>"true",
             "rest_end"=>"true",
         ]);
@@ -118,9 +118,9 @@ class RestController extends Controller
             return redirect("/error");
         }
         elseif (!empty($rest->end_at)){
-            $rest_total = Rest::where("attendance_id",$stamp->id)
-            ->orderBy("created_at","desc")
-            ->value("start_at")
+            $rest_total = Rest::where('attendance_id',$stamp->id)
+            ->orderBy('created_at','desc')
+            ->value('start_at')
             ->diffINSeconds(Carbon::now());
             $rest_hour  = floor($rest_total / 3600);
             $rest_min   = floor(($rest_total - 3600 * $rest_hour) / 60);
@@ -131,9 +131,9 @@ class RestController extends Controller
             $rest_total = $rest_hour . ":" . $rest_min . ":" . $rest_sec;
             // 休憩時間の更新
             $rest_previous_total = Carbon::today()
-            ->diffInSeconds(Rest::where("attendance_id",$stamp->id)
-            ->orderBy("created_at","desc")
-            ->value("total_at")
+            ->diffInSeconds(Rest::where('attendance_id',$stamp->id)
+            ->orderBy('created_at','desc')
+            ->value('total_at')
             ->format("H:i:s"));
             $test_hour  = floor(floor($rest_previous_total / 3600) + $rest_hour);
             $test_min   = floor(floor($rest_previous_total - 3600 * $test_hour) / 60 + $rest_min);
@@ -143,18 +143,22 @@ class RestController extends Controller
             $test_sec   = $test_sec < 10 ? "0" . $test_sec : $test_sec;
             $test_total = $test_hour . ":" . $test_min . ":" . $test_sec;
             $test_at    = Rest::where("attendance_id",$stamp->id)
-            ->orderBy("created_at","desc")
+            ->orderBy('created_at','desc')
             ->update([
-                "attendance_id"=>$stamp->id,
-                "end_at"       =>Carbon::now()->format("H:i:s"),
-                "total_at"     =>$test_total
+                'attendance_id'=>$stamp->id,
+                'end_at'       =>Carbon::now()->format("H:i:s"),
+                'total_at'     =>$test_total
             ]);
             return redirect("/")->with([
-                "message" =>'休憩終了を記録しました',
+                'message' =>'休憩終了を記録しました',
                 "start"   =>"true",
                 "rest_end"=>"true",
             ]);
         }
-        return redirect("/");
+        return redirect("/")->with([
+            'message' =>'休憩終了済みです',
+            "start"   =>"true",
+            "rest_end"=>"true",
+        ]);
     }
 }

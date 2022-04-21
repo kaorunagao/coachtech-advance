@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\Attendance;
 use App\Models\Rest;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Pagination\Paginator;
 
 class AttendanceController extends Controller
 {

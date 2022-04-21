@@ -12,13 +12,15 @@ class Rest extends Model
     use HasFactory;
 
     protected $fillable = [
-        "attendance_id",
-        "start_at",
-        "date"
+        'attendance_id',
+        'start_at',
+        'end_at',
+        'total_at',
+        'date',
     ];
     protected $dates = [
-        "start_at",
-        "total_at"
+        'start_at',
+        'total_at',
     ];
 
     public function attendances()

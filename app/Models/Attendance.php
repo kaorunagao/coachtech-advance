@@ -12,14 +12,14 @@ class Attendance extends Model
     use HasFactory;
     
     protected $fillable = [
-        "user_id",
-        "rest_id",
-        "start_at",
-        "date"
+        'user_id',
+        'rest_id',
+        'start_at',
+        'date',
     ];
     protected $dates = [
-        "start_at",
-        "date"
+        'start_at',
+        'date',
     ];
 
     public function user()
