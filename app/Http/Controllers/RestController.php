@@ -65,12 +65,7 @@ class RestController extends Controller
                 "rest_start"=>"true",
             ]);
         }
-        return redirect("/")->with([
-            'message'   =>'休憩中です',
-            "start"     =>"true",
-            "end"       =>"true",
-            "rest_start"=>"true",
-        ]);
+        return redirect("/error");
     }
 
 // 休憩終了を記録すると同時に休憩時間を計算する
@@ -155,10 +150,5 @@ class RestController extends Controller
                 "rest_end"=>"true",
             ]);
         }
-        return redirect("/")->with([
-            'message' =>'休憩終了済みです',
-            "start"   =>"true",
-            "rest_end"=>"true",
-        ]);
     }
 }

@@ -15,7 +15,7 @@ class AuthenticatedSessionController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function create()
+    public function showLogin()
     {
         return view('auth.login');
     }
@@ -26,7 +26,7 @@ class AuthenticatedSessionController extends Controller
      * @param  \App\Http\Requests\Auth\LoginRequest  $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(LoginRequest $request)
+    public function getLogin(LoginRequest $request)
     {
         $request->authenticate();
 
@@ -41,7 +41,7 @@ class AuthenticatedSessionController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function destroy(Request $request)
+    public function getLogout(Request $request)
     {
         Auth::guard('web')->logout();
 

@@ -19,7 +19,7 @@ class RegisteredUserController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function create()
+    public function showRegister()
     {
         return view('auth.register');
     }
@@ -32,7 +32,7 @@ class RegisteredUserController extends Controller
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function store(RegisterRequest $request)
+    public function getRegister(RegisterRequest $request)
     {
         $user = User::create([
             'name' => $request->name,

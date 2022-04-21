@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TimestampController;
 use App\Http\Controllers\RestController;
 use App\Http\Controllers\AttendanceController;
-use App\Http\Controllers\UserlistController;
+use App\Http\Controllers\RegisteredUserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,7 +22,6 @@ Route::get('/dashboard', function () {
 })->middleware(['auth'])->name('dashboard');
 
 require __DIR__.'/auth.php';
-
 
 Route::get('/', function () {
     $user = Auth::user();
