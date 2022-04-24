@@ -44,10 +44,7 @@ Route::post("/rest_start",[RestController::class,"restStart"]);
 Route::post("/rest_end", [RestController::class,"restEnd"]);
 
 // 日別勤怠管理、表示/処理
-Route::get("/attendance",  [AttendanceController::class,"create"]);
-Route::post("/attendance", [AttendanceController::class,"search"]);
-
-// ユーザー別勤怠一覧
-Route::get("/userlist",[UserlistController::class,"create"]);
+Route::get("/attendance",  [AttendanceController::class,"showAttendance"]);
+Route::post("/attendance", [AttendanceController::class,"getAttendance"]);
 
 });

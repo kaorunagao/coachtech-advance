@@ -15,7 +15,7 @@ class RestController extends Controller
 // 既に休憩開始の打刻をしている状態で休憩開始の打刻をした場合、メッセージで知らせる
     public function restStart(){
         $user       = Auth::user();
-        $today      = Carbon::today()->format("Y-m-d");
+        $today      = Carbon::today()->format('Y-m-d');
         $stamp      = Attendance::where('user_id',$user->id)
         ->orderBy('id','desc')
         ->first();
@@ -56,7 +56,7 @@ class RestController extends Controller
             ->update([
                 'attendance_id'=>$stamp->id,
                 'date'         =>$today,
-                'start_at'     =>Carbon::now()->format("H:i:s"),
+                'start_at'     =>Carbon::now()->format('H:i:s'),
             ]);
             return redirect("/")->with([
                 'message'   =>'休憩開始を記録しました',
@@ -73,7 +73,7 @@ class RestController extends Controller
 // 2回目以降の休憩は休憩時間を時/分/秒に分けてそれぞれ計算し結合させる
     public function restEnd(){
         $user  = Auth::user();
-        $today = Carbon::today()->format("Y-m-d");
+        $today = Carbon::today()->format('Y-m-d');
         $stamp = Attendance::where('user_id',Auth::user()->id)
         ->latest()
         ->first();
@@ -86,7 +86,7 @@ class RestController extends Controller
         $rest_total = Rest::where('attendance_id',$stamp->id)
         ->orderby('created_at','desc')
         ->value('start_at')
-        ->diffINSeconds(Carbon::now()->format("H:i:s"));
+        ->diffINSeconds(Carbon::now()->format('H:i:s'));
         $rest_hour  = floor($rest_total / 3600);
         $rest_min   = floor(($rest_total - 3600 * $rest_hour) / 60);
         $rest_sec   = floor($rest_total % 60);
@@ -99,7 +99,7 @@ class RestController extends Controller
         ->whereNull('end_at')
         ->update([
             'attendance_id'=>$stamp->id,
-            'end_at'       =>Carbon::now()->format("H:i:s"),
+            'end_at'       =>Carbon::now()->format('H:i:s'),
             'total_at'     =>$rest_total,
         ]);
         return redirect("/")->with([
@@ -129,7 +129,7 @@ class RestController extends Controller
             ->diffInSeconds(Rest::where('attendance_id',$stamp->id)
             ->orderBy('created_at','desc')
             ->value('total_at')
-            ->format("H:i:s"));
+            ->format('H:i:s'));
             $test_hour  = floor(floor($rest_previous_total / 3600) + $rest_hour);
             $test_min   = floor(floor($rest_previous_total - 3600 * $test_hour) / 60 + $rest_min);
             $test_sec   = floor(floor($rest_previous_total % 60) + $rest_sec);
@@ -137,11 +137,11 @@ class RestController extends Controller
             $test_min   = $test_min < 10 ? "0" . $test_min : $test_min;
             $test_sec   = $test_sec < 10 ? "0" . $test_sec : $test_sec;
             $test_total = $test_hour . ":" . $test_min . ":" . $test_sec;
-            $test_at    = Rest::where("attendance_id",$stamp->id)
+            $test_at    = Rest::where('attendance_id',$stamp->id)
             ->orderBy('created_at','desc')
             ->update([
                 'attendance_id'=>$stamp->id,
-                'end_at'       =>Carbon::now()->format("H:i:s"),
+                'end_at'       =>Carbon::now()->format('H:i:s'),
                 'total_at'     =>$test_total
             ]);
             return redirect("/")->with([
