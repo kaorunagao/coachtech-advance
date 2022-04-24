@@ -16,6 +16,8 @@ class Rest extends Model
         'start_at',
         'end_at',
         'total_at',
+        'rest_in',
+        'rest_out',
         'date',
     ];
     protected $dates = [
