@@ -12,7 +12,7 @@ use App\Models\Rest;
 class RestController extends Controller
 {
 // 休憩開始の記録をする
-// 既に休憩開始の打刻をしている状態で休憩開始の打刻をした場合、メッセージで知らせる
+// 既に休憩開始の打刻をしている状態で休憩開始の打刻をした場合、エラーで知らせる
     public function restStart(){
         $user       = Auth::user();
         $today      = Carbon::today()->format('Y-m-d');
