@@ -17,8 +17,7 @@ class TimestampController extends Controller
         ->where('date', Carbon::now()
         ->format('Y-m-d'))
         ->value('end_at');
-        return view("timestamp",
-        ["user"=>$user]);
+        return view("timestamp",["user"=>$user]);
     }
 // 勤務開始を記録する
 // 既に勤務開始の打刻をしている状態で勤務開始の打刻をした場合、エラーで知らせる
@@ -34,9 +33,12 @@ class TimestampController extends Controller
                 'start_at'=>Carbon::now()->format('H:i:s'),
             ]);
             return redirect("/")->with([
-                    'message' =>'勤務開始を記録しました',
-                    "start"   =>"true",
-                    "rest_end"=>"true",
+                    session()->put('message','勤務開始を記録しました'),
+                    session()->put('start',"true"),
+                    session()->put('end',null),
+                    session()->put('rest_start',null),
+                    session()->put('rest_end',"true"),
+                    session()->save(),
                 ]);
         }
         return redirect("/error");
@@ -92,11 +94,12 @@ class TimestampController extends Controller
             'work_at'=>$attendance_total,
             ]);
         return redirect("/")->with([
-            'message'   =>'勤務終了を記録しました',
-            "start"     =>"true",
-            "end"       =>"true",
-            "rest_start"=>"true",
-            "rest_end"  =>"true",
+            session()->put('message','勤務終了を記録しました'),
+            session()->put('start',"true"),
+            session()->put('end',"true"),
+            session()->put('rest_start',"true"),
+            session()->put('rest_end',"true"),
+            session()->save(),
         ]);
         }
         $work_total = Attendance::where('user_id', $user->id)
@@ -137,11 +140,12 @@ class TimestampController extends Controller
             ->value('id')
         ]);
         return redirect("/")->with([
-            'message'   =>'勤務終了を記録しました',
-            "start"     =>"true",
-            "end"       =>"true",
-            "rest_start"=>"true",
-            "rest_end"  =>"true",
+            session()->put('message','勤務終了を記録しました'),
+            session()->put('start',"true"),
+            session()->put('end',"true"),
+            session()->put('rest_start',"true"),
+            session()->put('rest_end',"true"),
+            session()->save(),
         ]);
     }
 }

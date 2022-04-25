@@ -112,7 +112,7 @@
       <div class="content_stampbtn" id="btn_start">
         <form action="/time_start" method="POST">
           {{--勤務開始--}}
-          @if(Session::has("start"))
+          @if(Session::has('start'))
           @csrf
           <button type="submit" class="btn_disabled" id="btn_start_1" disabled>
             勤務開始
@@ -126,7 +126,7 @@
         </form>
         <form action="/time_end" method="POST">
           {{--勤務終了--}}
-          @if(Session::has("end"))
+          @if(Session::has('end'))
           @csrf
           <button type="submit" class="btn_disabled" id="btn_start_3" disabled>
             勤務終了
@@ -142,7 +142,7 @@
       <div class="content_stampbtn" id="btn_rest">
         <form action="/rest_start" method="POST">
           {{--休憩開始--}}
-          @if(Session("rest_start"))
+          @if(Session('rest_start'))
           @csrf
           <button type="submit" class="btn_disabled" id="btn_rest_1" disabled>
             休憩開始
@@ -156,7 +156,7 @@
         </form>
         <form action="/rest_end" method="POST">
           {{--休憩終了--}}
-          @if(Session("rest_end"))
+          @if(Session('rest_end'))
           @csrf
           <button type="submit" class="btn_disabled" id="btn_rest_3" disabled>
             休憩終了

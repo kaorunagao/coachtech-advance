@@ -44,10 +44,12 @@ class RestController extends Controller
                 ->value('id')
             ]);
             return redirect("/")->with([
-                'message'   =>'休憩開始を記録しました',
-                "start"     =>"true",
-                "end"       =>"true",
-                "rest_start"=>"true",
+                session()->put('message','休憩開始を記録しました'),
+                session()->put('start',"true"),
+                session()->put('end',"true"),
+                session()->put('rest_start',"true"),
+                session()->put('rest_end',null),
+                session()->save(),
             ]);
         }
         elseif (!empty($rest->end_at)){
@@ -59,10 +61,12 @@ class RestController extends Controller
                 'start_at'     =>Carbon::now()->format('H:i:s'),
             ]);
             return redirect("/")->with([
-                'message'   =>'休憩開始を記録しました',
-                "start"     =>"true",
-                "end"       =>"true",
-                "rest_start"=>"true",
+                session()->put('message','休憩開始を記録しました'),
+                session()->put('start',"true"),
+                session()->put('end',"true"),
+                session()->put('rest_start',"true"),
+                session()->put('rest_end',null),
+                session()->save(),
             ]);
         }
         return redirect("/error");
@@ -103,9 +107,12 @@ class RestController extends Controller
             'total_at'     =>$rest_total,
         ]);
         return redirect("/")->with([
-            'message' =>'休憩終了を記録しました',
-            "start"   =>"true",
-            "rest_end"=>"true",
+            session()->put('message','休憩終了を記録しました'),
+            session()->put('start',"true"),
+            session()->put('end',null),
+            session()->put('rest_start',null),
+            session()->put('rest_end',"true"),
+            session()->save(),
         ]);
         }
         elseif (!empty($rest->end_at) && !empty($stamp->end_at))
@@ -145,9 +152,12 @@ class RestController extends Controller
                 'total_at'     =>$test_total
             ]);
             return redirect("/")->with([
-                'message' =>'休憩終了を記録しました',
-                "start"   =>"true",
-                "rest_end"=>"true",
+                session()->put('message','休憩終了を記録しました'),
+                session()->put('start',"true"),
+                session()->put('end',null),
+                session()->put('rest_start',null),
+                session()->put('rest_end',"true"),
+                session()->save(),
             ]);
         }
     }
