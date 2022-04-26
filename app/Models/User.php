@@ -28,6 +28,12 @@ class User extends Authenticatable
         return $this->hasMany('App\Models\Attendance');
     }
 
+    public function stamp()
+    {
+        return $this->hasOne('App\Models\Stamp');
+    }
+
+
     /**
      * The attributes that should be hidden for serialization.
      *
