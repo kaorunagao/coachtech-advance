@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Attendance;
 use App\Models\Rest;
+use App\Models\Stamp;
 
 class RestController extends Controller
 {
