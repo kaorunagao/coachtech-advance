@@ -62,11 +62,11 @@ class TimestampController extends Controller
         ->orderBy('id','desc')
         ->value('start_at')
         ->diffINSeconds(Carbon::now()->format('H:i:s'));
-        // 1時間=3600秒であるため、秒数から時間を算出するために差分から3600の商を出す。
+        // 1時間=3600秒であるため、秒数から時間を算出するために差分から3600の商を出す
         $work_hour  = floor($work_total / 3600);
         $work_min   = floor(($work_total - 3600 * $work_hour) / 60);
         $work_sec   = floor($work_total % 60);
-        // 条件式で○○:○○に合わせるようにする。
+        // 条件式で○○:○○に合わせるようにする
         $work_hour  = $work_hour < 10 ? "0" . $work_hour : $work_hour;
         $work_min   = $work_min < 10 ? "0" . $work_min : $work_min;
         $work_sec   = $work_sec < 10 ? "0" . $work_sec : $work_sec;
@@ -108,11 +108,11 @@ class TimestampController extends Controller
         ->orderBy('id','desc')
         ->value('start_at')
         ->diffINSeconds(Carbon::now()->format('H:i:s'));
-        // 1時間=3600秒であるため、秒数から時間を算出するために差分から3600の商を出す。
+        // 1時間=3600秒であるため、秒数から時間を算出するために差分から3600の商を出す
         $work_hour  = floor($work_total / 3600);
         $work_min   = floor(($work_total - 3600 * $work_hour) / 60);
         $work_sec   = floor($work_total % 60);
-        // 条件式で○○:○○に合わせるようにする。
+        // 条件式で○○:○○に合わせるようにする
         $work_hour  = $work_hour < 10 ? "0" . $work_hour : $work_hour;
         $work_min   = $work_min < 10 ? "0" . $work_min : $work_min;
         $work_sec   = $work_sec < 10 ? "0" . $work_sec : $work_sec;

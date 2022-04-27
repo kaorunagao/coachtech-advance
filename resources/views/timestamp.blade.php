@@ -6,53 +6,53 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AttendanceSystem</title>
     <style>
-    body{
+    body {
       width:100%;
       margin:0;
       padding:0;
     }
-    .header{
+    .header {
       display:flex;
       justify-content:space-between;
       align-items:center;
       padding:20px 0 0 30px;
       line-height:0px;
     }
-    .header_nav{
+    .header_nav {
       width:40%;
     }
-    .header_nav ul{
+    .header_nav ul {
       display:flex;
       justify-content:space-evenly;
     }
-    .header_nav ul li{
+    .header_nav ul li {
       list-style:none;
     }
-    .header_nav ul li a:hover{
+    .header_nav ul li a:hover {
       color:blue;
     }
-    .header_nav a{
+    .header_nav a {
       text-decoration:none;
       color:black;
     }
-    .user_list-title{
+    .user_list-title {
       font-weight:bold;
       font-size:20px;
       text-align:center;
       padding-top:30px;
     }
-    .content{
+    .content {
       width:100%;
       height:100%;
       background-color:#F5F5F5;
       min-height:calc(88vh - 50px);
     }
-    .content_stampbtn{
+    .content_stampbtn {
       display:flex;
       justify-content:center;
       padding:30px 0;
     }
-    .content button{
+    .content button {
       border:none;
       padding:60px 160px;
       margin:-15px 20px;
@@ -60,11 +60,10 @@
       font-weight:bold;
       font-size:15px;
     }
-    .btn_disabled{
+    .btn_disabled {
       color:#dcdcdc;
     }
-    .session 
-    {
+    .session {
       text-align:center;
       font-size:15px;
       font-weight:bold;

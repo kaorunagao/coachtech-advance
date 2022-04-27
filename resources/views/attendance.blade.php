@@ -6,47 +6,47 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AttendanceSystem</title>
     <style>
-    body{
+    body {
       width:100%;
       margin:0;
       padding:0;
     }
-    .header{
+    .header {
       display:flex;
       justify-content:space-between;
       align-items:center;
       padding:20px 0 20px 30px;
       line-height:0px;
     }
-    .header_nav{
+    .header_nav {
       width:40%;
     }
-    .header_nav ul{
+    .header_nav ul {
       display:flex;
       justify-content:space-evenly;
     }
-    .header_nav ul li{
+    .header_nav ul li {
       list-style:none;
     }
-    .header_nav ul li a:hover{
+    .header_nav ul li a:hover {
       color:blue;
     }
-    .header_nav a{
+    .header_nav a {
       text-decoration:none;
       color:black;
     }
-    .date{
+    .date {
       display:flex;
       justify-content:center;
     }
-    .date_today{
+    .date_today {
       font-weight:bold;
       font-size:20px;
       text-align:center;
       padding:30px;
       margin:3px;
     }
-    .date_button{
+    .date_button {
       width:35px;
       margin:33px 25px 0;
       font-size:20px;
@@ -55,18 +55,18 @@
       color:blue;
       cursor:pointer;
     }
-    .content{
+    .content {
       width:100%;
       height:100%;
       background-color:#F5F5F5;
       min-height:calc(89vh - 50px);
     }
-    .info_attendance{
+    .info_attendance {
       width:90%;
       margin:0 auto;
       font-size:17px;
     }
-    table{
+    table {
       text-align:center;
       border-collapse:collapse;
     }
@@ -90,11 +90,11 @@
       margin-bottom:2px;
       margin-right:1px;
     }
-    .pagination li:hover{
+    .pagination li:hover {
       background: blue;
       color: white;
     }
-    .page-item :hover{
+    .page-item :hover {
       background: blue;
       color: white;
     }
@@ -103,7 +103,7 @@
       height: 100%;
       text-decoration:none;
     }
-    .nav-links{
+    .nav-links {
       padding:10px 0;
     }
     .footer {
@@ -164,9 +164,9 @@
           @foreach($stamps as $stamp)
           <tr>
             <td>{{$stamp->user->name}}</td>
-            <td>{{$stamp->start_at->format("H:i:s")}}</td>
+            <td>{{$stamp->start_at->format('H:i:s')}}</td>
             <td>{{$stamp->end_at}}</td>
-            <td>{{$stamp->rest->total_at->format("H:i:s")}}</td>
+            <td>{{$stamp->rest->total_at->format('H:i:s')}}</td>
             <td>{{$stamp->work_at}}</td>
           </tr>
           @endforeach
