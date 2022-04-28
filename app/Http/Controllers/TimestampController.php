@@ -13,33 +13,34 @@ use App\Models\Stamp;
 class TimestampController extends Controller
 {
     public function showTimestamp(){
-        $user   = Auth::user();
+        $user   = Auth::user(); 
         $end_at = Attendance::where('user_id', $user->id)
         ->where('date', Carbon::now()
         ->format('Y-m-d'))
         ->value('end_at');
-        $start=null;
-        $end=null;
-        $rest_start=null;
-        $rest_end=null;
-        $attendance=Stamp::where('user_id',$user->id)->value('attendance');
-        $rest=Stamp::where('user_id',$user->id)->value('rest');
+
+        $start = null;
+        $end = null;
+        $rest_start = null;
+        $rest_end = null;
+        $attendance = Stamp::where('user_id',$user->id)->value('attendance');
+        $rest = Stamp::where('user_id',$user->id)->value('rest');
         
         if ($attendance == true ){
-                $start=true;
+                $start = true;
             }else{
-                $start=true;
-                $end=true;
-                $rest_start=true;
-                $rest_end=true;
+                $start = true;
+                $end = true;
+                $rest_start = true;
+                $rest_end = true;
             }
         if ($rest == true ){
-                $rest_start=true;
+                $rest_start = true;
             }else{
-                $start=true;
-                $end=true;
-                $rest_start=true;
-                $rest_end=true;
+                $start = true;
+                $end = true;
+                $rest_start = true;
+                $rest_end = true;
             }
         return view("timestamp",["user"=>$user])->with([
                     session()->put('start',$start),
@@ -52,10 +53,10 @@ class TimestampController extends Controller
         
     public function registerStamp($user_id,$attendance,$rest){
         Stamp::upsert([
-            'user_id'  =>$user_id,
-            'attendance'=>$attendance,
-            'rest'=>$rest,],
-            ['user_id',]);
+            'user_id'    =>$user_id,
+            'attendance' =>$attendance,
+            'rest'       =>$rest,],
+            ['user_id']);
         }
 
 // 勤務開始を記録する
