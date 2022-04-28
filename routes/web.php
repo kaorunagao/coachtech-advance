@@ -31,21 +31,24 @@ Route::get('/', function () {
 Route::post('/', function () {
     [TimestampController::class,"showTimestamp"];
 })->middleware(["auth"]);
+Route::post('/', function ($user_id,$attendance,$rest) {
+    [TimestampController::class,"registerStamp"];
+})->middleware(["auth"]);
 
 
 Route::group(['middleware' => 'auth'], function () {
 //勤怠開始
 Route::post("/time_start",[TimestampController::class,"timeStart"]);
-Route::post("/time_start",[TimestampController::class,"registerStamp"]);
+Route::get("/time_start",[TimestampController::class,"registerStamp"]);
 // 勤怠終了
 Route::post("/time_end",[TimestampController::class,"timeEnd"]);
-Route::post("/time_end",[TimestampController::class,"registerStamp"]);
+Route::get("/time_end",[TimestampController::class,"registerStamp"]);
 //休憩開始
 Route::post("/rest_start",[RestController::class,"restStart"]);
-Route::post("/rest_start",[RestController::class,"registerStamp"]);
+Route::get("/rest_start",[RestController::class,"registerStamp"]);
 //休憩終了
 Route::post("/rest_end", [RestController::class,"restEnd"]);
-Route::post("/rest_end",[RestController::class,"registerStamp"]);
+Route::get("/rest_end", [RestController::class,"registerStamp"]);
 
 // 日別勤怠管理、表示/処理
 Route::get("/attendance",  [AttendanceController::class,"showAttendance"]);

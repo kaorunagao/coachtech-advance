@@ -27,29 +27,31 @@ class TimestampController extends Controller
         $rest = Stamp::where('user_id',$user->id)->value('rest');
         
         if ($attendance == true ){
-                $start = true;
-            }else{
-                $start = true;
-                $end = true;
-                $rest_start = true;
-                $rest_end = true;
-            }
-        if ($rest == true ){
-                $rest_start = true;
-            }else{
-                $start = true;
-                $end = true;
-                $rest_start = true;
-                $rest_end = true;
-            }
-        return view("timestamp",["user"=>$user])->with([
-                    session()->put('start',$start),
-                    session()->put('end',$end),
-                    session()->put('rest_start',$rest_start),
-                    session()->put('rest_end',$rest_end),
-                    session()->save(),
-                ]);
+            $start = true;
+        }else{
+            $start = true;
+            $end = true;
+            $rest_start = true;
+            $rest_end = true;
         }
+
+        if ($rest == true ){
+            $rest_start = true;
+        }else{
+            $start = true;
+            $end = true;
+            $rest_start = true;
+            $rest_end = true;
+        }
+        
+        return view("timestamp",["user"=>$user])->with([
+            session()->put('start',$start),
+            session()->put('end',$end),
+            session()->put('rest_start',$rest_start),
+            session()->put('rest_end',$rest_end),
+            session()->save(),
+        ]);
+    }
         
     public function registerStamp($user_id,$attendance,$rest){
         Stamp::upsert([

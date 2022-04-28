@@ -12,6 +12,7 @@ use App\Models\Stamp;
 
 class RestController extends Controller
 {
+
     public function registerStamp($user_id,$attendance,$rest){
         Stamp::upsert([
             'user_id'  =>$user_id,
@@ -125,7 +126,7 @@ class RestController extends Controller
         ]);
 
         //押されたボタンの状態をDBに登録する
-            registerStamp(Auth::id(),true,false);
+        registerStamp(Auth::id(),true,false);
 
         return redirect("/")->with([
             session()->put('message','休憩終了を記録しました'),
