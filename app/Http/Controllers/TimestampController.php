@@ -18,8 +18,46 @@ class TimestampController extends Controller
         ->where('date', Carbon::now()
         ->format('Y-m-d'))
         ->value('end_at');
-        return view("timestamp",["user"=>$user]);
-    }
+        $start=null;
+        $end=null;
+        $rest_start=null;
+        $rest_end=null;
+        $attendance=Stamp::where('user_id',$user->id)->value('attendance');
+        $rest=Stamp::where('user_id',$user->id)->value('rest');
+        
+        if ($attendance == true ){
+                $start=true;
+            }else{
+                $start=true;
+                $end=true;
+                $rest_start=true;
+                $rest_end=true;
+            }
+        if ($rest == true ){
+                $rest_start=true;
+            }else{
+                $start=true;
+                $end=true;
+                $rest_start=true;
+                $rest_end=true;
+            }
+        return view("timestamp",["user"=>$user])->with([
+                    session()->put('start',$start),
+                    session()->put('end',$end),
+                    session()->put('rest_start',$rest_start),
+                    session()->put('rest_end',$rest_end),
+                    session()->save(),
+                ]);
+        }
+        
+    public function registerStamp($user_id,$attendance,$rest){
+        Stamp::upsert([
+            'user_id'  =>$user_id,
+            'attendance'=>$attendance,
+            'rest'=>$rest,],
+            ['user_id',]);
+        }
+
 // 勤務開始を記録する
 // 既に勤務開始の打刻をしている状態で勤務開始の打刻をした場合、エラーで知らせる
     public function timeStart() {
@@ -33,6 +71,10 @@ class TimestampController extends Controller
                 'date'    =>Carbon::now()->format('Y-m-d'),
                 'start_at'=>Carbon::now()->format('H:i:s'),
             ]);
+            
+            //押されたボタンの状態をDBに登録する
+            registerStamp(Auth::id(),true,false);
+
             return redirect("/")->with([
                     session()->put('message','勤務開始を記録しました'),
                     session()->put('start',"true"),
@@ -94,14 +136,18 @@ class TimestampController extends Controller
             'end_at' =>Carbon::now()->format('H:i:s'),
             'work_at'=>$attendance_total,
             ]);
-        return redirect("/")->with([
-            session()->put('message','勤務終了を記録しました'),
-            session()->put('start',"true"),
-            session()->put('end',"true"),
-            session()->put('rest_start',"true"),
-            session()->put('rest_end',"true"),
-            session()->save(),
-        ]);
+            
+            //押されたボタンの状態をDBに登録する
+            registerStamp(Auth::id(),true,false);
+            
+            return redirect("/")->with([
+                session()->put('message','勤務終了を記録しました'),
+                session()->put('start',"true"),
+                session()->put('end',"true"),
+                session()->put('rest_start',"true"),
+                session()->put('rest_end',"true"),
+                session()->save(),
+            ]);
         }
         $work_total = Attendance::where('user_id', $user->id)
         ->where('date', $today)
@@ -140,6 +186,10 @@ class TimestampController extends Controller
             ->orderBy('created_at','desc')
             ->value('id')
         ]);
+        
+        //押されたボタンの状態をDBに登録する
+        registerStamp(Auth::id(),true,false);
+        
         return redirect("/")->with([
             session()->put('message','勤務終了を記録しました'),
             session()->put('start',"true"),
