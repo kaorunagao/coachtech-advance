@@ -25,13 +25,19 @@ require __DIR__.'/auth.php';
 
 Route::get('/', function () {
     $user = Auth::user();
-    return view("timestamp",["user"=>$user]);
+    return view("timestamp",["user"=>$user])->with([
+            session()->put('start',$start),
+            session()->put('end',$end),
+            session()->put('rest_start',$rest_start),
+            session()->put('rest_end',$rest_end),
+            session()->save(),
+        ]);
 })->middleware(["auth"]);
 // 打刻、表示/処理
 Route::post('/', function () {
     [TimestampController::class,"showTimestamp"];
 })->middleware(["auth"]);
-Route::post('/', function ($user_id,$attendance,$rest) {
+Route::get('/', function ($user_id,$attendance,$rest) {
     [TimestampController::class,"registerStamp"];
 })->middleware(["auth"]);
 
