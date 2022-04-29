@@ -9,17 +9,10 @@ use App\Models\User;
 use App\Models\Attendance;
 use App\Models\Rest;
 use App\Models\Stamp;
+use App\Utils\Utility;
 
 class RestController extends Controller
 {
-
-    public function registerStamp($user_id,$attendance,$rest){
-        Stamp::upsert([
-            'user_id'  =>$user_id,
-            'attendance'=>$attendance,
-            'rest'=>$rest,],
-            ['user_id']);
-        }
 
 // 休憩開始の記録をする
 // 既に休憩開始の打刻をしている状態で休憩開始の打刻をした場合、エラーで知らせる
@@ -55,7 +48,7 @@ class RestController extends Controller
             ]);
 
             //押されたボタンの状態をDBに登録する
-            registerStamp(Auth::id(),true,false);
+            Utility::registerStamp(Auth::id(),true,true);
 
             return redirect("/")->with([
                 session()->put('message','休憩開始を記録しました'),
@@ -76,7 +69,7 @@ class RestController extends Controller
             ]);
 
             //押されたボタンの状態をDBに登録する
-            registerStamp(Auth::id(),true,false);
+            Utility::registerStamp(Auth::id(),true,true);
 
             return redirect("/")->with([
                 session()->put('message','休憩開始を記録しました'),
@@ -126,7 +119,7 @@ class RestController extends Controller
         ]);
 
         //押されたボタンの状態をDBに登録する
-        registerStamp(Auth::id(),true,false);
+        Utility::registerStamp(Auth::id(),true,false);
 
         return redirect("/")->with([
             session()->put('message','休憩終了を記録しました'),
@@ -175,7 +168,7 @@ class RestController extends Controller
             ]);
 
             //押されたボタンの状態をDBに登録する
-            registerStamp(Auth::id(),true,false);
+            Utility::registerStamp(Auth::id(),true,false);
 
             return redirect("/")->with([
                 session()->put('message','休憩終了を記録しました'),

@@ -9,57 +9,62 @@ use App\Models\User;
 use App\Models\Attendance;
 use App\Models\Rest;
 use App\Models\Stamp;
+use App\Utils\Utility;
 
 class TimestampController extends Controller
 {
-    public function showTimestamp(){
+    public function showSession(){
+        $user   = Auth::user();
+        $start = null;
+        $end = null;
+        $rest_start = null;
+        $rest_end = null;
+
+        $stamp = Stamp::where('user_id', $user->id);
+        $stamp_updated_at = new Carbon($stamp->value('updated_at'));
+
+        // スタンプが記録されていてかつ、更新日が本日の場合にStamp情報を取得し、セッションを更新する
+        if($stamp->exists() && $stamp_updated_at->isToday()){
+
+            if ($stamp->value('attendance') == true ){
+                // 出勤
+                $start = true;
+            }else{
+                // 退勤
+                $start = true;
+                $end = true;
+                $rest_start = true;
+                $rest_end = true;
+            }
+            if ($stamp->value('rest') == true ){
+                // 休憩開始
+                $start = true;
+                $end = true;
+                $rest_start = true;
+            }else{
+                // 休憩終了
+                $start = true;
+                $rest_end = true;
+            }
+        }
+        session()->put('start',$start);
+        session()->put('end',$end);
+        session()->put('rest_start',$rest_start);
+        session()->put('rest_end',$rest_end);
+        session()->save();
+
+        return view("timestamp",["user"=>$user]);
+    }
+
+    public function getTimestamp(){
         $user   = Auth::user(); 
         $end_at = Attendance::where('user_id', $user->id)
         ->where('date', Carbon::now()
         ->format('Y-m-d'))
         ->value('end_at');
 
-        $start = null;
-        $end = null;
-        $rest_start = null;
-        $rest_end = null;
-        $attendance = Stamp::where('user_id',$user->id)->value('attendance');
-        $rest = Stamp::where('user_id',$user->id)->value('rest');
-        
-        if ($attendance == true ){
-            $start = true;
-        }else{
-            $start = true;
-            $end = true;
-            $rest_start = true;
-            $rest_end = true;
-        }
-
-        if ($rest == true ){
-            $rest_start = true;
-        }else{
-            $start = true;
-            $end = true;
-            $rest_start = true;
-            $rest_end = true;
-        }
-        
-        return view("timestamp",["user"=>$user])->with([
-            session()->put('start',$start),
-            session()->put('end',$end),
-            session()->put('rest_start',$rest_start),
-            session()->put('rest_end',$rest_end),
-            session()->save(),
-        ]);
+        return view("timestamp",["user"=>$user]);
     }
-        
-    public function registerStamp($user_id,$attendance,$rest){
-        Stamp::upsert([
-            'user_id'    =>$user_id,
-            'attendance' =>$attendance,
-            'rest'       =>$rest,],
-            ['user_id']);
-        }
 
 // 勤務開始を記録する
 // 既に勤務開始の打刻をしている状態で勤務開始の打刻をした場合、エラーで知らせる
@@ -76,7 +81,7 @@ class TimestampController extends Controller
             ]);
             
             //押されたボタンの状態をDBに登録する
-            registerStamp(Auth::id(),true,false);
+            Utility::registerStamp(Auth::id(),true,false);
 
             return redirect("/")->with([
                     session()->put('message','勤務開始を記録しました'),
@@ -141,7 +146,7 @@ class TimestampController extends Controller
             ]);
             
             //押されたボタンの状態をDBに登録する
-            registerStamp(Auth::id(),true,false);
+            Utility::registerStamp(Auth::id(),false,false);
             
             return redirect("/")->with([
                 session()->put('message','勤務終了を記録しました'),
@@ -191,7 +196,7 @@ class TimestampController extends Controller
         ]);
         
         //押されたボタンの状態をDBに登録する
-        registerStamp(Auth::id(),true,false);
+        Utility::registerStamp(Auth::id(),false,false);
         
         return redirect("/")->with([
             session()->put('message','勤務終了を記録しました'),

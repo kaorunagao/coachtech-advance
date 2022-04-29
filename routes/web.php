@@ -23,29 +23,23 @@ Route::get('/dashboard', function () {
 
 require __DIR__.'/auth.php';
 
-Route::get('/', function () {
-    $user = Auth::user();
-    return view("timestamp",["user"=>$user]);
-})->middleware(["auth"]);
-// 打刻、表示/処理
+
+// 打刻状況、表示/処理
+Route::get('/', [TimestampController::class, "showSession"])->middleware(["auth"]);
 Route::post('/', function () {
-    [TimestampController::class,"showTimestamp"];
+    [TimestampController::class,"getTimestamp"];
 })->middleware(["auth"]);
 
 
 Route::group(['middleware' => 'auth'], function () {
-//勤怠開始
+//勤務開始
 Route::post("/time_start",[TimestampController::class,"timeStart"]);
-Route::get("/time_start",[TimestampController::class,"registerStamp"]);
-// 勤怠終了
+// 勤務終了
 Route::post("/time_end",[TimestampController::class,"timeEnd"]);
-Route::get("/time_end",[TimestampController::class,"registerStamp"]);
 //休憩開始
 Route::post("/rest_start",[RestController::class,"restStart"]);
-Route::get("/rest_start",[RestController::class,"registerStamp"]);
 //休憩終了
 Route::post("/rest_end", [RestController::class,"restEnd"]);
-Route::get("/rest_end", [RestController::class,"registerStamp"]);
 
 // 日別勤怠管理、表示/処理
 Route::get("/attendance",  [AttendanceController::class,"showAttendance"]);
