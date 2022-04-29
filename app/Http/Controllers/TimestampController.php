@@ -72,7 +72,8 @@ class TimestampController extends Controller
         ->where('date',Carbon::today()
         ->format('Y-m-d'))
         ->value('start_at');
-        if ($start_time == null) {
+        if ($start_time == null) 
+        {
             Attendance::create([
                 'user_id' =>Auth::id(),
                 'date'    =>Carbon::now()->format('Y-m-d'),
@@ -98,7 +99,11 @@ class TimestampController extends Controller
         $user     = Auth::user();
         $today    = Carbon::today()->format('Y-m-d');
         $end_time = Attendance::where('user_id', $user->id)->where('date', $today)->value('end_at');
-        if ($end_time !== null)
+        $start_time = Attendance::where('user_id',Auth::user()->id)
+        ->where('date',Carbon::today()
+        ->format('Y-m-d'))
+        ->value('start_at');
+        if ($start_time == null) 
         {
             return redirect("/error");
         }
