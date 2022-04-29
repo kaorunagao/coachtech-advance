@@ -67,7 +67,6 @@ class TimestampController extends Controller
     }
 
 // 勤務開始を記録する
-// 既に勤務開始の打刻をしている状態で勤務開始の打刻をした場合、エラーで知らせる
     public function timeStart() {
         $start_time = Attendance::where('user_id',Auth::user()->id)
         ->where('date',Carbon::today()
@@ -82,20 +81,18 @@ class TimestampController extends Controller
             
             //押されたボタンの状態をDBに登録する
             Utility::registerStamp(Auth::id(),true,false);
-
+            
             return redirect("/")->with([
-                    session()->put('message','勤務開始を記録しました'),
-                    session()->put('start',"true"),
-                    session()->put('end',null),
-                    session()->put('rest_start',null),
-                    session()->put('rest_end',"true"),
-                    session()->save(),
-                ]);
+                session()->put('message','勤務開始を記録しました'),
+                session()->put('start',"true"),
+                session()->put('end',null),
+                session()->put('rest_start',null),
+                session()->put('rest_end',"true"),
+                session()->save(),
+            ]);
         }
-        return redirect("/error");
     }
 // 勤務終了を記録すると同時に勤務時間を計算する
-// 既に勤務終了を打刻している状態で勤務終了の打刻をした場合、エラーで知らせる
 // 勤務時間は差分の秒数を計算後、時間/分/秒に切り分けて処理する
     public function timeEnd(){
         $user     = Auth::user();
