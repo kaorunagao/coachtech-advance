@@ -29,7 +29,14 @@ class RestController extends Controller
         ->first();
         if (!empty($stamp->end_at))
         {
-            return redirect("/error");
+            return redirect("/")->with([
+                session()->put('message','まずは勤務開始を打刻して下さい'),
+                session()->put('start',null),
+                session()->put('end',"true"),
+                session()->put('rest_start',"true"),
+                session()->put('rest_end',"true"),
+                session()->save(),
+            ]);
         }
         elseif (empty($rest)){
             $rest_at = Rest::create([
@@ -130,7 +137,14 @@ class RestController extends Controller
         }
         elseif (!empty($rest->end_at) && !empty($stamp->end_at))
         {
-            return redirect("/error");
+            return redirect("/")->with([
+                session()->put('message','まずは勤務開始を打刻して下さい'),
+                session()->put('start',null),
+                session()->put('end',"true"),
+                session()->put('rest_start',"true"),
+                session()->put('rest_end',"true"),
+                session()->save(),
+            ]);
         }
         elseif (!empty($rest->end_at)){
             $rest_total = Rest::where('attendance_id',$stamp->id)

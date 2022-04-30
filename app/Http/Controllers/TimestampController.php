@@ -105,7 +105,14 @@ class TimestampController extends Controller
         ->value('start_at');
         if ($start_time == null) 
         {
-            return redirect("/error");
+            return redirect("/")->with([
+                session()->put('message','まずは勤務開始を打刻して下さい'),
+                session()->put('start',null),
+                session()->put('end',"true"),
+                session()->put('rest_start',"true"),
+                session()->put('rest_end',"true"),
+                session()->save(),
+            ]);
         }
         elseif (!empty( Attendance::where('user_id', $user->id)->where('date', $today)->value('rest_id')))
         {
