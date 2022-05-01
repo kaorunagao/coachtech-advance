@@ -103,7 +103,7 @@ class TimestampController extends Controller
         ->where('date',Carbon::today()
         ->format('Y-m-d'))
         ->value('start_at');
-        if ($start_time == null) 
+        if ($start_time == null)
         {
             return redirect("/")->with([
                 session()->put('message','まずは勤務開始を打刻して下さい'),
