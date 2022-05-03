@@ -59,7 +59,7 @@
       width:100%;
       height:100%;
       background-color:#F5F5F5;
-      min-height:calc(89vh - 50px);
+      min-height:calc(88vh - 50px);
     }
     .info_attendance {
       width:90%;
