@@ -27,10 +27,10 @@ class TimestampController extends Controller
         if($stamp->exists() && $stamp_updated_at->isToday()){
 
             if ($stamp->value('attendance') == true ){
-                // 出勤
+                // 勤務開始
                 $start = true;
             }else{
-                // 退勤
+                // 勤務終了
                 $start = true;
                 $end = true;
                 $rest_start = true;
