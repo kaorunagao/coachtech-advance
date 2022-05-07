@@ -28,7 +28,7 @@ class AttendanceController extends Controller
     }
 
 // 日付サイドの｢</>｣を押すと日付の1日前/1日後のデータを表示する
-// < =　値｢back」を受け取り1日前に戻す
+// < =　値｢back」を受け取り1日前に戻る
 // > =　値｢next｣を受け取り1日後に進む
     public function getAttendance(Request $request){
         // 1日前の処理

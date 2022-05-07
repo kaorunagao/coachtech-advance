@@ -13,7 +13,6 @@ use App\Utils\Utility;
 
 class RestController extends Controller
 {
-
 // 休憩開始の記録をする
     public function restStart(){
         $user       = Auth::user();
@@ -27,7 +26,10 @@ class RestController extends Controller
         $rest       = Rest::where('attendance_id',$stamp->id)
         ->orderBy('created_at','desc')
         ->first();
-        if (!empty($stamp->end_at))
+        $start_time = Attendance::where('user_id',$user->id)
+        ->where('date',$today)
+        ->value('start_at');
+        if ($start_time == null)
         {
             return redirect("/")->with([
                 session()->put('message','まずは勤務開始を打刻して下さい'),
@@ -94,13 +96,27 @@ class RestController extends Controller
     public function restEnd(){
         $user  = Auth::user();
         $today = Carbon::today()->format('Y-m-d');
-        $stamp = Attendance::where('user_id',Auth::user()->id)
+        $stamp = Attendance::where('user_id',$user->id)
         ->latest()
         ->first();
         $rest  = Rest::where('attendance_id',$stamp->id)
         ->orderBy('created_at','desc')
         ->first();
-        if (empty(Rest::where('attendance_id',$stamp->id)
+        $start_time = Attendance::where('user_id',$user->id)
+        ->where('date',$today)
+        ->value('start_at');
+        if ($start_time == null)
+        {
+            return redirect("/")->with([
+                session()->put('message','まずは勤務開始を打刻して下さい'),
+                session()->put('start',null),
+                session()->put('end',"true"),
+                session()->put('rest_start',"true"),
+                session()->put('rest_end',"true"),
+                session()->save(),
+            ]);
+        }
+        elseif (empty(Rest::where('attendance_id',$stamp->id)
         ->orderBy('created_at','desc')
         ->first()->end_at)){
         $rest_total = Rest::where('attendance_id',$stamp->id)
@@ -135,17 +151,7 @@ class RestController extends Controller
             session()->save(),
         ]);
         }
-        elseif (!empty($rest->end_at) && !empty($stamp->end_at))
-        {
-            return redirect("/")->with([
-                session()->put('message','まずは勤務開始を打刻して下さい'),
-                session()->put('start',null),
-                session()->put('end',"true"),
-                session()->put('rest_start',"true"),
-                session()->put('rest_end',"true"),
-                session()->save(),
-            ]);
-        }
+        
         elseif (!empty($rest->end_at)){
             $rest_total = Rest::where('attendance_id',$stamp->id)
             ->orderBy('created_at','desc')

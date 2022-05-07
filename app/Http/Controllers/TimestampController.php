@@ -68,9 +68,10 @@ class TimestampController extends Controller
 
 // 勤務開始を記録する
     public function timeStart() {
-        $start_time = Attendance::where('user_id',Auth::user()->id)
-        ->where('date',Carbon::today()
-        ->format('Y-m-d'))
+        $user     = Auth::user();
+        $today    = Carbon::today()->format('Y-m-d');
+        $start_time = Attendance::where('user_id',$user->id)
+        ->where('date',$today)
         ->value('start_at');
         if ($start_time == null) 
         {
@@ -98,10 +99,11 @@ class TimestampController extends Controller
     public function timeEnd(){
         $user     = Auth::user();
         $today    = Carbon::today()->format('Y-m-d');
-        $end_time = Attendance::where('user_id', $user->id)->where('date', $today)->value('end_at');
-        $start_time = Attendance::where('user_id',Auth::user()->id)
-        ->where('date',Carbon::today()
-        ->format('Y-m-d'))
+        $end_time = Attendance::where('user_id',$user->id)
+        ->where('date', $today)
+        ->value('end_at');
+        $start_time = Attendance::where('user_id',$user->id)
+        ->where('date',$today)
         ->value('start_at');
         if ($start_time == null)
         {
@@ -114,7 +116,9 @@ class TimestampController extends Controller
                 session()->save(),
             ]);
         }
-        elseif (!empty( Attendance::where('user_id', $user->id)->where('date', $today)->value('rest_id')))
+        elseif (!empty( Attendance::where('user_id', $user->id)
+        ->where('date', $today)
+        ->value('rest_id')))
         {
         $work_total = Attendance::where('user_id', $user->id)
         ->where('date', $today)
@@ -131,7 +135,7 @@ class TimestampController extends Controller
         $work_sec   = $work_sec < 10 ? "0" . $work_sec : $work_sec;
         $work_total = $work_hour . ":" . $work_min . ":" . $work_sec;
         // 休憩時間を差し引いた勤務時間
-        $attendance_total = Rest::where('attendance_id',Attendance::where('user_id',Auth::user()->id)
+        $attendance_total = Rest::where('attendance_id',Attendance::where('user_id',$user->id)
         ->latest()
         ->first()
         ->id)
@@ -146,9 +150,9 @@ class TimestampController extends Controller
         $attendance_sec   = $attendance_sec < 10 ? "0" . $attendance_sec : $attendance_sec;
         $attendance_total = $attendance_hour . ":" . $attendance_min . ":" . $attendance_sec;
         Attendance::where('user_id',$user->id)
-            ->where('date',$today)
-            ->whereNull('end_at')
-            ->update([
+        ->where('date',$today)
+        ->whereNull('end_at')
+        ->update([
             'user_id'=>Auth::id(),
             'end_at' =>Carbon::now()->format('H:i:s'),
             'work_at'=>$attendance_total,
@@ -191,15 +195,15 @@ class TimestampController extends Controller
             'total_at'=>Carbon::today(),
         ]);
         Attendance::where('user_id',$user->id)
-            ->where('date',$today)
-            ->whereNull('end_at')
-            ->update([
+        ->where('date',$today)
+        ->whereNull('end_at')
+        ->update([
             'user_id'=>Auth::id(),
             'end_at' =>Carbon::now()->format('H:i:s'),
             'work_at'=>$work_total,
             'rest_id'=>Rest::where('attendance_id',Attendance::where('user_id',$user->id)
-        ->orderBy('id','desc')
-        ->first()->id)
+            ->orderBy('id','desc')
+            ->first()->id)
             ->orderBy('created_at','desc')
             ->value('id')
         ]);
