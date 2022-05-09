@@ -49,7 +49,7 @@
             "@php artisan key:generate --ansi"
         ],
         "compile": [
-            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
+            "@php -r \"file_exists('.env') || copy('.env.heroku', '.env');\""
         ]
     },
     "extra": {
