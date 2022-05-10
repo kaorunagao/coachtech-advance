@@ -75,7 +75,7 @@
       margin-top:10px;
       text-align:center;
       font-weight:bold;
-      }
+    }
     </style>
   </head>
 

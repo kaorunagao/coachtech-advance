@@ -20,12 +20,6 @@ class RestController extends Controller
         $stamp      = Attendance::where('user_id',$user->id)
         ->orderBy('id','desc')
         ->first();
-        $stamp_test = Attendance::where('user_id',$user->id)
-        ->latest()
-        ->first();
-        $rest       = Rest::where('attendance_id',$stamp->id)
-        ->orderBy('created_at','desc')
-        ->first();
         $start_time = Attendance::where('user_id',$user->id)
         ->where('date',$today)
         ->value('start_at');
@@ -40,7 +34,9 @@ class RestController extends Controller
                 session()->save(),
             ]);
         }
-        elseif (empty($rest)){
+        elseif (empty(Rest::where('attendance_id',$stamp->id)
+        ->orderBy('created_at','desc')
+        ->first())){
             $rest_at = Rest::create([
                 'attendance_id'=>$stamp->id,
                 'date'         =>$today,
@@ -67,7 +63,9 @@ class RestController extends Controller
                 session()->save(),
             ]);
         }
-        elseif (!empty($rest->end_at)){
+        elseif (!empty(Rest::where('attendance_id',$stamp->id)
+        ->orderBy('created_at','desc')
+        ->first())){
             $rest_at = Rest::where('attendance_id',$stamp->id)
             ->orderBy('created_at','desc')
             ->update([
@@ -98,9 +96,6 @@ class RestController extends Controller
         $today = Carbon::today()->format('Y-m-d');
         $stamp = Attendance::where('user_id',$user->id)
         ->latest()
-        ->first();
-        $rest  = Rest::where('attendance_id',$stamp->id)
-        ->orderBy('created_at','desc')
         ->first();
         $start_time = Attendance::where('user_id',$user->id)
         ->where('date',$today)
@@ -152,7 +147,9 @@ class RestController extends Controller
         ]);
         }
         
-        elseif (!empty($rest->end_at)){
+        elseif (!empty(Rest::where('attendance_id',$stamp->id)
+        ->orderBy('created_at','desc')
+        ->first()->end_at)){
             $rest_total = Rest::where('attendance_id',$stamp->id)
             ->orderBy('created_at','desc')
             ->value('start_at')
