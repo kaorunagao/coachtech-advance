@@ -50,7 +50,7 @@
     .content_stampbtn {
       display:flex;
       justify-content:center;
-      padding:30px 0;
+      padding:30px;
     }
     .content button {
       border:none;
@@ -75,6 +75,88 @@
       margin-top:10px;
       text-align:center;
       font-weight:bold;
+    }
+    @media screen and (max-width: 480px) {
+    body {
+      width:100%;
+      margin:0;
+      padding:0;
+    }
+    .header {
+      width:100%;
+      padding:0;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      line-height:0px;
+    }
+    .header_title {
+      font-size:15px;
+      padding:15px 0 0 15px;
+    }
+    .header_nav {
+      width:100%;
+      font-size:15px;
+      margin-top:20px;
+    }
+    .header_nav ul {
+      display:flex;
+      justify-content:space-evenly;
+    }
+    .header_nav ul li {
+      list-style:none;
+    }
+    .header_nav ul li a:hover {
+      color:blue;
+    }
+    .header_nav a {
+      text-decoration:none;
+      color:black;
+    }
+    .user_list-title {
+      font-weight:bold;
+      font-size:20px;
+      text-align:center;
+      padding-top:30px;
+    }
+    .content {
+      width:100%;
+      height:100%;
+      margin:0;
+      padding:0;
+      background-color:#F5F5F5;
+      min-height:calc(90vh - 50px);
+    }
+    .content_stampbtn {
+      display:flex;
+      justify-content:center;
+      padding:20px;
+      margin-top:15px;
+    }
+    .content button {
+      border:none;
+      padding:20px 40px;
+      margin:-15px 10px;
+      background:white;
+      font-weight:bold;
+      font-size:15px;
+    }
+    .btn_disabled {
+      color:#dcdcdc;
+    }
+    .session {
+      text-align:center;
+      font-size:15px;
+      font-weight:bold;
+      color:blue;
+    }
+    .footer {
+      width:100%;
+      height:10px;
+      margin-top:20px;
+      text-align:center;
+      font-weight:bold;
+    }
     }
     </style>
   </head>

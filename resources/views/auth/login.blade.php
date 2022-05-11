@@ -79,6 +79,81 @@
       text-align:center;
       font-weight:bold;
     }
+    @media screen and (max-width: 480px) {
+    body {
+      width:100%;
+      margin:0;
+      padding:0;
+    }
+    header {
+      padding-left:50px;
+    }
+    .content {
+      width:100%;
+      background-color:#F5F5F5;
+      padding:20px 0 100px 0;
+      min-height:calc(77vh - 50px);
+    }
+    table {
+      width:100%;
+      margin:0 auto;
+      text-align:center;
+    }
+    td {
+      padding:5px;
+      display:flex;
+      justify-content:center;
+    }
+    .content_input-p {
+      margin:0;
+    }
+    .content_input-p:first-child {
+      color:grey;
+      font-size:12px;
+    }
+    .content_input-a {
+      margin:0;
+      color:blue;
+      text-decoration:none;
+    }
+    input {
+      width:300px;
+      height:25px;
+      padding:7px;
+      margin:5px 0;
+      background-color:#F5F5F5;
+      border:1px solid grey;
+      border-radius:3px;
+    }
+    .content_input-button {
+      width:315px;
+      height:40px;
+      padding:7px;
+      background:blue;
+      color:white;
+      border:none;
+      border-radius:3px;
+      cursor:pointer;
+    }
+    .content_input-button:hover {
+      background:#00008B;
+      color:blue;
+    }
+    .content_input-a:hover {
+      color:#00008B;
+    }
+    .error {
+      color:red;
+      font-size:5px;
+    }
+    footer {
+      width:100%;
+      height:10px;
+      margin-top:18px;
+      text-align:center;
+      font-weight:bold;
+    }
+    }
     </style>
   </head>
     

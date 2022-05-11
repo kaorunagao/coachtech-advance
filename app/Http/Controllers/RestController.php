@@ -179,7 +179,7 @@ class RestController extends Controller
             ->update([
                 'attendance_id'=>$stamp->id,
                 'end_at'       =>Carbon::now()->format('H:i:s'),
-                'total_at'     =>$test_total
+                'total_at'     =>$test_total,
             ]);
 
             //押されたボタンの状態をDBに登録する
