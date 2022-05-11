@@ -73,7 +73,7 @@
     .footer {
       width:100%;
       height:10px;
-      margin-top:15px;
+      margin-top:17px;
       text-align:center;
       font-weight:bold;
     }
@@ -84,7 +84,7 @@
       padding:0;
     }
     header {
-      padding-left:50px;
+      padding-left:30px;
     }
     .content {
       width:100%;

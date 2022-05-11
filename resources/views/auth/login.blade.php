@@ -86,7 +86,7 @@
       padding:0;
     }
     header {
-      padding-left:50px;
+      padding-left:30px;
     }
     .content {
       width:100%;

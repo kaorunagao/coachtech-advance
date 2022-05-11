@@ -113,6 +113,123 @@
       text-align:center;
       font-weight:bold;
     }
+    @media screen and (max-width: 480px) {
+    body {
+      width:100%;
+      margin:0;
+      padding:0;
+    }
+    .header {
+      width:100%;
+      padding:0;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      line-height:0px;
+    }
+    .header_title {
+      font-size:10px;
+      padding:20px 0 20px 20px;
+    }
+    .header_nav {
+      width:100%;
+      font-size:12px;
+      margin-top:15px;
+      padding-bottom:15px;
+    }
+    .header_nav ul {
+      display:flex;
+      justify-content:space-evenly;
+    }
+    .header_nav ul li {
+      list-style:none;
+    }
+    .header_nav ul li a:hover {
+      color:blue;
+    }
+    .header_nav a {
+      text-decoration:none;
+      color:black;
+    }
+    .date {
+      display:flex;
+      justify-content:center;
+    }
+    .date_today {
+      font-weight:bold;
+      font-size:20px;
+      text-align:center;
+      padding:30px;
+      margin:3px;
+    }
+    .date_button {
+      width:30px;
+      margin:33px 25px 0;
+      font-size:20px;
+      background:white;
+      border-color:blue;
+      color:blue;
+      cursor:pointer;
+    }
+    .content {
+      width:100%;
+      height:100%;
+      background-color:#F5F5F5;
+      min-height:calc(90vh - 50px);
+    }
+    .info_attendance {
+      width:90%;
+      margin:0 auto;
+      font-size:10px;
+    }
+    table {
+      text-align:center;
+      border-collapse:collapse;
+    }
+    th,td {
+      padding:10px;
+      border-top:1px solid silver;
+    }
+    svg.w-5.h-5 {
+      width: 30px;
+      height: 30px;
+    }
+    .pagination {
+      display:flex;
+      justify-content:center;
+      list-style:none;
+    }
+    .pagination li {
+      background:white;
+      width:30px;
+      text-align:center;
+      margin-bottom:2px;
+      margin-right:1px;
+    }
+    .pagination li:hover {
+      background: blue;
+      color: white;
+    }
+    .page-item :hover {
+      background: blue;
+      color: white;
+    }
+    .pagination li a {
+      display:block;
+      height: 100%;
+      text-decoration:none;
+    }
+    .nav-links {
+      padding:10px 0;
+    }
+    .footer {
+      width:100%;
+      height:10px;
+      margin-top:22px;
+      text-align:center;
+      font-weight:bold;
+    }
+    }
     </style>
   </head>
 
