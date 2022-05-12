@@ -50,17 +50,18 @@
       min-height:calc(88vh - 50px);
     }
     .content_stampbtn {
+      width:100%;
       display:flex;
       justify-content:center;
-      padding:30px;
+      padding:25px 0;
     }
     .content button {
       border:none;
-      padding:60px 160px;
-      margin:-15px 20px;
+      padding:60px 100px;
+      margin:-10px 20px;
       background:white;
       font-weight:bold;
-      font-size:15px;
+      font-size:16px;
     }
     .btn_disabled {
       color:#dcdcdc;
@@ -94,11 +95,11 @@
     }
     .header_title {
       font-size:10px;
-      padding:20px 0 0px 20px;
+      padding:20px 0 0 20px;
     }
     .header_nav {
       width:100%;
-      font-size:12px;
+      font-size:8px;
       margin-top:25px;
     }
     .header_nav ul {
@@ -132,7 +133,7 @@
     .content_stampbtn {
       display:flex;
       justify-content:center;
-      padding:20px;
+      padding:20px 0;
       margin-top:10px;
     }
     .content button {
@@ -155,7 +156,7 @@
     .footer {
       width:100%;
       height:10px;
-      margin-top:22px;
+      margin-top:20px;
       text-align:center;
       font-weight:bold;
     }

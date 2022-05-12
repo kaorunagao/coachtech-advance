@@ -19,14 +19,16 @@
       line-height:0px;
     }
     .header_nav {
-      width:40%;
+      width:100%;
+      font-size:16px;
     }
     .header_nav ul {
       display:flex;
-      justify-content:space-evenly;
+      justify-content:flex-end;
     }
     .header_nav ul li {
       list-style:none;
+      margin:0 20px;
     }
     .header_nav ul li a:hover {
       color:blue;
@@ -133,13 +135,14 @@
     }
     .header_nav {
       width:100%;
-      font-size:12px;
+      font-size:10px;
       margin-top:15px;
-      padding-bottom:15px;
+      padding-bottom:10px;
     }
     .header_nav ul {
       display:flex;
       justify-content:space-evenly;
+      margin-left:-5px;
     }
     .header_nav ul li {
       list-style:none;
@@ -225,7 +228,7 @@
     .footer {
       width:100%;
       height:10px;
-      margin-top:22px;
+      margin-top:20px;
       text-align:center;
       font-weight:bold;
     }
