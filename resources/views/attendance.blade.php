@@ -286,7 +286,7 @@
             <td>{{$stamp->user->name}}</td>
             <td>{{$stamp->start_at->format('H:i:s')}}</td>
             <td>{{$stamp->end_at}}</td>
-            <td>{{$stamp->rest->total_at->format('H:i:s')}}</td>
+            <td>{{substr(@$stamp->rest->total_at,-8)}}</td>
             <td>{{$stamp->work_at}}</td>
           </tr>
           @endforeach
